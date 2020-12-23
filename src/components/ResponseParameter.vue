@@ -33,10 +33,17 @@ export default {
       return formatObject(obj)
     },
     getRefObject (param) {
-      let ref = param.schema['$ref']
-      ref = ref.substring(14, ref.length)
-      let definition = this.getDefinitions()
-      return definition[ref]['properties']
+      if (param !== undefined) {
+        if (param.schema !== undefined) {
+          if (param.schema['$ref'] !== undefined) {
+            let ref = param.schema['$ref']
+            ref = ref.substring(14, ref.length)
+            let definition = this.getDefinitions()
+            return definition[ref]['properties']
+          }
+        }
+      }
+      return ''
     }
   },
   computed: {

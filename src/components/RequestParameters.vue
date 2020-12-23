@@ -62,7 +62,6 @@
       </div>
       <div v-if="bodyParameters.length > 0">
         <h5>Body参数</h5>
-        <span>{{JSON.stringify(bodyParameters)}}</span>
         <pre v-for="param in bodyParameters" :key="param.name">{{format(param.schema.$ref)}}</pre>
       </div>
     </div>

@@ -1,14 +1,24 @@
 <template>
-  <el-card style="margin: 0;">
+  <el-card style="margin: 0;padding: 0;">
     <div slot="header">
       <h3 style="margin: 0;">{{operation.summary}}</h3>
       <p>{{operation.description}}</p>
     </div>
     <div>
-      <request-path :method="operation.method" :path="operation.path"></request-path>
-      <request-parameter :parameters="parameters" :consumes="operation.consumes"></request-parameter>
-      <response-parameter :parameters="responses" :produces="operation.produces"></response-parameter>
-      <test :operation="operation"></test>
+      <div class="tips">
+        <el-tabs v-model="activeName" @tab-click="handleClick">
+          <el-tab-pane label="测试" name="first">
+            <request-path :method="operation.method" :path="operation.path"></request-path>
+            <test :operation="operation"></test>
+          </el-tab-pane>
+          <el-tab-pane label="说明" name="second">
+            <request-parameter :parameters="parameters" :consumes="operation.consumes"></request-parameter>
+            <response-parameter :parameters="responses" :produces="operation.produces"></response-parameter>
+          </el-tab-pane>
+        </el-tabs>
+
+      </div>
+
       <!--<definition v-for="(definition, key) in definitions" :definition="definition" :name="key" :key="key"></definition>-->
     </div>
   </el-card>
@@ -19,8 +29,9 @@ import RequestPath from './RequestPath'
 import RequestParameter from './RequestParameters'
 import ResponseParameter from './ResponseParameter'
 import Test from './Test'
-import { formatObject, forEachValue } from '../util'
-import { mapGetters } from 'vuex'
+import {formatObject, forEachValue} from '../util'
+import {mapGetters} from 'vuex'
+
 export default {
   components: {
     RequestPath,
@@ -29,12 +40,12 @@ export default {
     Test
     // Definition
   },
-  props: {
-  },
+  props: {},
   data () {
     return {
       form: {},
-      testResult: {}
+      testResult: {},
+      activeName: 'first'
     }
   },
   methods: {
@@ -93,6 +104,14 @@ export default {
   }
 }
 </script>
-<style>
+<style scoped>
+.tips{
+  border-radius: 5px;
+  background-color: #e6ddec;
+  position: relative;
+  left: -15px;
+  top:-15px;
+  padding: 15px;
 
+}
 </style>
