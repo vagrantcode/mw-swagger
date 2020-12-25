@@ -95,6 +95,12 @@ export default {
           this.formModel.params.push(model)
         } else {
           this.formModel.bodies.push(model)
+          this.formModel.bodies.forEach(item => {
+            for (let e in item.schema.$ref.properties) {
+              item.schema.$ref.properties[e] = item.schema.$ref.properties[e].example
+            }
+            item.value = JSON.stringify(item.schema.$ref.properties, null, 4)
+          })
         }
       })
     }
