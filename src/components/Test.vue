@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <div class="testBox">
     <h3>测试</h3>
-    <div>
+    <div >
       <div class="left"></div>
       <el-form ref="formModel" :label-position="labelPosition" :model="formModel" label-width="160px">
         <el-form-item
@@ -24,12 +24,13 @@
           v-if="formModel.params.length<=0"
         >
           <el-input type="textarea" v-model="param.value" autosize></el-input>
+          <!--<div>{{JSON.stringify(param)}}</div>-->
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="onSubmit()">测一测</el-button>
         </el-form-item>
       </el-form>
-      <pre>{{format(testResult)}}</pre>
+      <pre class="resultBox">{{format(testResult)}}</pre>
     </div>
   </div>
 </template>
@@ -108,3 +109,14 @@ export default {
   }
 }
 </script>
+<style scoped>
+  .resultBox{
+    background: white;
+    padding: 5px 15px;
+    box-sizing: border-box;
+  }
+  .testBox{
+    width: calc(100% - 220px);
+    box-sizing: border-box;
+  }
+</style>

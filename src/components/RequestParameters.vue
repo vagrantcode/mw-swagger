@@ -62,7 +62,7 @@
       </div>
       <div v-if="bodyParameters.length > 0">
         <h5>Body参数</h5>
-        <pre v-for="param in bodyParameters" :key="param.name">{{format(param.schema.$ref)}}</pre>
+        <pre v-for="param in bodyParameters" :key="param.name">{{bodyParam(param.schema.$ref)}}</pre>
       </div>
     </div>
   </div>
@@ -87,6 +87,17 @@ export default {
     }),
     format (obj) {
       return formatObject(obj)
+    },
+    bodyParam (obj) {
+      if (obj.type === 'object') {
+        let temp = {}
+        for (let e in obj.properties) {
+          temp[e] = obj.properties[e].example
+        }
+        return this.format(temp)
+      } else {
+        return this.format(obj)
+      }
     }
   },
   computed: {
