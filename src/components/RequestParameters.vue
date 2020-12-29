@@ -1,9 +1,10 @@
 <template>
   <div>
-    <h3>参数</h3>
+    <div style="position: relative;box-sizing: border-box;padding:  10px 0">
+      <hr style="display: inline-block;vertical-align: middle;width: 100%;">
+      <span class="headerTitle">参数</span>
+    </div>
     <div>
-      <h5 style="display: inline-block;">参数类型</h5>
-      <span>[ {{consumes ? consumes.join(', ') : ''}} ]</span>
       <div v-if="headerAndQueryParameters.length > 0">
         <h5>Header/Query参数</h5>
         <el-table
@@ -18,7 +19,8 @@
             <template slot-scope="scope">
               <el-tag
                 :type="scope.row.in === 'header' ? 'danger' : 'primary'"
-                disable-transitions>{{scope.row.in}}</el-tag>
+                disable-transitions>{{scope.row.in}}
+              </el-tag>
             </template>
           </el-table-column>
           <el-table-column
@@ -62,6 +64,7 @@
       </div>
       <div v-if="bodyParameters.length > 0">
         <h5>Body参数</h5>
+
         <pre v-for="param in bodyParameters" :key="param.name">{{bodyParam(param.schema.$ref)}}</pre>
       </div>
     </div>
@@ -70,16 +73,16 @@
 
 <script>
 
-import { formatObject } from '../util'
-import { mapGetters } from 'vuex'
+import {formatObject} from '../util'
+import {mapGetters} from 'vuex'
+
 export default {
   props: {
     parameters: Array,
     consumes: Array
   },
   data () {
-    return {
-    }
+    return {}
   },
   methods: {
     ...mapGetters({
@@ -131,5 +134,19 @@ export default {
   .parameters {
     border-bottom: 1px solid #ebeef5;
     padding-bottom: 20px;
+  }
+
+  .headerTitle {
+    position: absolute;
+    left: 1em;
+    display: inline-block;
+    height: 100%;
+    top: 0;
+    background: #fff;
+    padding: 5px;
+    box-sizing: border-box;
+    line-height: calc(0.9em + 20px);
+    font-weight: bold;
+    color: #575658;
   }
 </style>

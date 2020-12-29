@@ -1,27 +1,25 @@
 <template>
-  <el-card style="margin: 0;padding: 0;">
-    <div slot="header">
-      <h3 style="margin: 0;">{{operation.summary}}</h3>
-      <p>{{operation.description}}</p>
-    </div>
-    <div>
-      <div class="tips">
-        <el-tabs v-model="activeName" @tab-click="handleClick">
-          <el-tab-pane label="测试" name="first">
-            <request-path :method="operation.method" :path="operation.path"></request-path>
-            <test :operation="operation"></test>
-          </el-tab-pane>
-          <el-tab-pane label="说明" name="second">
-            <request-parameter :parameters="parameters" :consumes="operation.consumes"></request-parameter>
-            <response-parameter :parameters="responses" :produces="operation.produces"></response-parameter>
-          </el-tab-pane>
-        </el-tabs>
+  <div class="opBox">
+    <el-tabs v-model="activeName" @tab-click="handleClick">
+      <el-tab-pane  name="first">
+        <span slot="label" style="font-weight: bold;">
+          <el-tag :type="type" >{{upperCase(operation.method)}}</el-tag>
+          {{operation.path}}
+        </span>
+        <request-base-info :operation="operation"></request-base-info>
+        <request-parameter :parameters="parameters" :consumes="operation.consumes"></request-parameter>
+        <response-parameter :parameters="responses" :produces="operation.produces"></response-parameter>
+      </el-tab-pane>
+      <el-tab-pane name="second">
+        <span slot="label" style="font-weight: bold;">
+          测试
+        </span>
+        <test :operation="operation"></test>
 
-      </div>
+      </el-tab-pane>
+    </el-tabs>
+  </div>
 
-      <!--<definition v-for="(definition, key) in definitions" :definition="definition" :name="key" :key="key"></definition>-->
-    </div>
-  </el-card>
 </template>
 
 <script>
@@ -31,9 +29,11 @@ import ResponseParameter from './ResponseParameter'
 import Test from './Test'
 import {formatObject, forEachValue} from '../util'
 import {mapGetters} from 'vuex'
+import RequestBaseInfo from './RequestBaseInfo'
 
 export default {
   components: {
+    RequestBaseInfo,
     RequestPath,
     RequestParameter,
     ResponseParameter,
@@ -71,6 +71,22 @@ export default {
         return this.getOperation()
       }
     },
+    type: {
+      get () {
+        if (!this.operation.method) {
+          return ''
+        }
+        let meth = this.operation.method.toUpperCase()
+        if (meth === 'GET') {
+          return ''
+        } else if (meth === 'POST') {
+          return 'success'
+        } else if (meth === 'DELETE') {
+          return 'danger'
+        }
+        return ''
+      }
+    },
     parameters: {
       get () {
         let operation = this.getOperation()
@@ -105,13 +121,11 @@ export default {
 }
 </script>
 <style scoped>
-.tips{
-  border-radius: 5px;
-  background-color: #e6ddec;
-  position: relative;
-  left: -15px;
-  top:-15px;
-  padding: 15px;
-
-}
+  .opBox{
+    width: 100%;
+    height:100%;
+    box-sizing: border-box;
+    padding: 5px;
+    margin: 0;
+  }
 </style>

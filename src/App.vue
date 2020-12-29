@@ -1,28 +1,35 @@
 <template>
-  <el-container class="app-wrapper">
+  <div class="app-wrapper">
     <el-header class="app-header">
       <header-bar></header-bar>
     </el-header>
-    <el-container>
-      <div class="app-sider">
-        <el-scrollbar style="height:100%;width: 100%;">
-        <side-menu></side-menu>
-        </el-scrollbar>
-      </div>
-      <div class="app-main" >
-        <el-scrollbar style="height:100%">
-          <router-view :key="key"></router-view>
-        </el-scrollbar>
-      </div>
-    </el-container>
-  </el-container>
+    <div class="contentBody">
+      <col-two :l-width="'17em'">
+        <div slot="left"  style="height: 100%;background: #1c1c1c;overflow: hidden;">
+          <el-scrollbar style="height:calc(100% + 14px);">
+            <side-menu></side-menu>
+          </el-scrollbar>
+        </div>
+        <div slot="right">
+          <div class="app-main" >
+            <el-scrollbar style="height:100%">
+              <router-view :key="key"></router-view>
+            </el-scrollbar>
+          </div>
+        </div>
+      </col-two>
+    </div>
+  </div>
 </template>
 <script>
 import HeaderBar from './components/HeaderBar'
 import SideMenu from './components/SideMenu'
+import ColTwo from './components/col-two'
 export default {
   components: {
-    HeaderBar, SideMenu
+    ColTwo,
+    HeaderBar,
+    SideMenu
   },
   data () {
     return {
@@ -42,6 +49,7 @@ export default {
 <style>
   .app-header{
     height: 60px;
+    overflow: hidden;
   }
   .app-wrapper{
     height: 100%;
@@ -59,7 +67,6 @@ export default {
     margin-left: 8px;
   }
   .app-main {
-    position: fixed;
     width: 100%;
     top: 70px;
     left: 232px;
@@ -67,5 +74,9 @@ export default {
     bottom: 0;
     right: 10px;
     overflow: hidden;
+  }
+  .contentBody{
+    width:100%;
+    height: calc(100% - 60px);
   }
 </style>

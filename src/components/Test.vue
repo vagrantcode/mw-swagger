@@ -1,6 +1,5 @@
 <template>
   <div class="testBox">
-    <h3>测试</h3>
     <div >
       <div class="left"></div>
       <el-form ref="formModel" :label-position="labelPosition" :model="formModel" label-width="160px">
@@ -30,6 +29,10 @@
           <el-button type="primary" @click="onSubmit()">测一测</el-button>
         </el-form-item>
       </el-form>
+      <div style="position: relative;box-sizing: border-box;padding:  10px 0">
+        <hr style="display: inline-block;vertical-align: middle;width: 100%;">
+        <span class="headerTitle">请求结果</span>
+      </div>
       <pre class="resultBox">{{format(testResult)}}</pre>
     </div>
   </div>
@@ -116,7 +119,21 @@ export default {
     box-sizing: border-box;
   }
   .testBox{
-    width: calc(100% - 220px);
+    width: 100%;
     box-sizing: border-box;
+    padding: 0 10px;
+  }
+  .headerTitle {
+    position: absolute;
+    left: 1em;
+    display: inline-block;
+    height: 100%;
+    top: 0;
+    background: #fff;
+    padding: 5px;
+    box-sizing: border-box;
+    line-height: calc(0.9em + 20px);
+    font-weight: bold;
+    color: #575658;
   }
 </style>

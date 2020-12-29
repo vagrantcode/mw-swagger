@@ -1,5 +1,5 @@
 <template>
-    <el-menu @select="handleSelect" background-color="#1c1c1c" text-color="#fff"
+    <el-menu  style="height: 100%;" @select="handleSelect" background-color="#1c1c1c" text-color="#fff"
              active-text-color="#ffd04b">
       <el-submenu v-for="item in getTags" :key="item.name" :index="item.name">
         <template slot="title">
