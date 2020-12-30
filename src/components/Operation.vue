@@ -1,23 +1,33 @@
 <template>
   <div class="opBox">
-    <el-tabs v-model="activeName" @tab-click="handleClick">
-      <el-tab-pane  name="first">
+    <div class="header">
+      <el-tabs v-model="activeName" >
+        <el-tab-pane  name="first">
         <span slot="label" style="font-weight: bold;">
           <el-tag :type="type" >{{upperCase(operation.method)}}</el-tag>
           {{operation.path}}
         </span>
-        <request-base-info :operation="operation"></request-base-info>
-        <request-parameter :parameters="parameters" :consumes="operation.consumes"></request-parameter>
-        <response-parameter :parameters="responses" :produces="operation.produces"></response-parameter>
-      </el-tab-pane>
-      <el-tab-pane name="second">
+
+        </el-tab-pane>
+        <el-tab-pane name="second">
         <span slot="label" style="font-weight: bold;">
           测试
         </span>
-        <test :operation="operation"></test>
 
-      </el-tab-pane>
-    </el-tabs>
+        </el-tab-pane>
+      </el-tabs>
+    </div>
+  <div class="content">
+    <el-scrollbar style="height:100%">
+      <div v-show="activeName==='first'">
+        <request-base-info :operation="operation"></request-base-info>
+        <request-parameter :parameters="parameters" :consumes="operation.consumes"></request-parameter>
+        <response-parameter :parameters="responses" :produces="operation.produces"></response-parameter>
+      </div>
+      <test :operation="operation" v-show="activeName==='second'"></test>
+    </el-scrollbar>
+
+  </div>
   </div>
 
 </template>
@@ -127,5 +137,11 @@ export default {
     box-sizing: border-box;
     padding: 5px;
     margin: 0;
+  }
+  .header{
+    height: 50px;
+  }
+  .content{
+    height: calc(100% - 50px);
   }
 </style>

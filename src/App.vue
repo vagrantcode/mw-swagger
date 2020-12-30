@@ -4,17 +4,20 @@
       <header-bar></header-bar>
     </el-header>
     <div class="contentBody">
-      <col-two :l-width="'17em'">
+      <col-two :l-width="'17em'" r-height="100%">
         <div slot="left"  style="height: 100%;background: #1c1c1c;overflow: hidden;">
+          <div class="searchBox">
+            <el-input placeholder="输入关键字搜索" v-model="searchTxt" class="input-with-select" size="small" :clearable="true">
+             <!-- <el-button slot="append" icon="el-icon-search" size="small" @click="search"></el-button>-->
+            </el-input>
+          </div>
           <el-scrollbar style="height:calc(100% + 14px);">
-            <side-menu></side-menu>
+            <side-menu :search-txt="searchTxt"></side-menu>
           </el-scrollbar>
         </div>
-        <div slot="right">
-          <div class="app-main" >
-            <el-scrollbar style="height:100%">
-              <router-view :key="key"></router-view>
-            </el-scrollbar>
+        <div slot="right" style="height: 100%;overflow: auto;">
+          <div class="app-main" style="height: 100%;overflow: auto;">
+            <router-view :key="key"></router-view>
           </div>
         </div>
       </col-two>
@@ -33,9 +36,13 @@ export default {
   },
   data () {
     return {
+      searchTxt: ''
     }
   },
   methods: {
+    search () {
+      alert(this.searchTxt)
+    }
   },
   computed: {
     key () {
@@ -68,15 +75,13 @@ export default {
   }
   .app-main {
     width: 100%;
-    top: 70px;
-    left: 232px;
-    /* height: 100%; */
-    bottom: 0;
-    right: 10px;
-    overflow: hidden;
   }
   .contentBody{
     width:100%;
     height: calc(100% - 60px);
+  }
+  .searchBox{
+    box-sizing: border-box;
+    padding: 5px 5px;
   }
 </style>

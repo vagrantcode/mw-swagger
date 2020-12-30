@@ -3,7 +3,7 @@
     :data="tableData"
     :show-header="false"
     size="small"
-    border="true"
+    :border="true"
     style="width: 100%">
     <el-table-column
       prop="name"

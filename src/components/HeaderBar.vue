@@ -40,6 +40,10 @@ export default {
     getResources () {
       resources().then(data => {
         this.groups = data.data
+        if (this.groups) {
+          this.group = this.groups[0].name
+          this.change(this.group)
+        }
       })
     },
     change (value) {

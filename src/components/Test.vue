@@ -1,7 +1,6 @@
 <template>
   <div class="testBox">
     <div>
-      <div class="left"></div>
       <el-form ref="formModel" :label-position="labelPosition" :model="formModel" label-width="160px">
         <el-form-item
           size="default" v-for="(param, index) in formModel.params"
@@ -125,6 +124,8 @@ export default {
     width: 100%;
     box-sizing: border-box;
     padding: 0 10px;
+    height: 100%;
+    overflow: auto;
   }
 
   .headerTitle {
