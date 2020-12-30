@@ -63,9 +63,33 @@
         </el-table>
       </div>
       <div v-if="bodyParameters.length > 0">
-        <h5>Body参数</h5>
-
-        <pre v-for="param in bodyParameters" :key="param.name">{{bodyParam(param.schema.$ref)}}</pre>
+        <el-table
+          :data="bodyParameters"
+          border
+          stripe
+          :header-cell-style="{background:'#d4d7da',color:'#4a4a4a'}"
+          style="width: 100%">
+          <el-table-column
+            prop="in"
+            label="名称"
+            width="120">
+          </el-table-column>
+          <el-table-column
+            prop="required"
+            label="必须"
+            width="120">
+            <template slot-scope="scope">
+              <em>({{ scope.row.required? '必填' : '可选' }})</em>
+            </template>
+          </el-table-column>
+          <el-table-column label="样例" >
+            <template slot-scope="scope">
+              <div style="max-height: 150px;overflow: auto;">
+                <pre>{{bodyParam(scope.row.schema.$ref)}}</pre>
+              </div>
+            </template>
+          </el-table-column>
+        </el-table>
       </div>
     </div>
   </div>

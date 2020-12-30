@@ -1,13 +1,15 @@
 <template>
   <div>
-    <h3>响应</h3>
+    <div style="position: relative;box-sizing: border-box;padding:  10px 0">
+      <hr style="display: inline-block;vertical-align: middle;width: 100%;">
+      <span class="headerTitle">响应</span>
+    </div>
     <div>
-      <h5>Produces</h5>
-      <p>[ {{produces ? produces.join(', ') : ''}} ]</p>
-      <div v-for="param in parameters" :key="param.description">
+      <p>响应类型：[ {{produces ? produces.join(', ') : ''}} ]</p>
+    <!--  <div v-for="param in parameters" :key="param.description">
         <h5>Status {{param.status}} : {{param.description}}</h5>
         <pre>{{format(getRefObject(param))}}</pre>
-      </div>
+      </div>-->
     </div>
   </div>
 </template>
@@ -54,6 +56,18 @@ export default {
   }
 }
 </script>
-<style>
-
+<style scoped>
+  .headerTitle {
+    position: absolute;
+    left: 1em;
+    display: inline-block;
+    height: 100%;
+    top: 0;
+    background: #fff;
+    padding: 5px;
+    box-sizing: border-box;
+    line-height: calc(0.9em + 20px);
+    font-weight: bold;
+    color: #575658;
+  }
 </style>

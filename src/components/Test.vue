@@ -1,6 +1,6 @@
 <template>
   <div class="testBox">
-    <div >
+    <div>
       <div class="left"></div>
       <el-form ref="formModel" :label-position="labelPosition" :model="formModel" label-width="160px">
         <el-form-item
@@ -33,7 +33,7 @@
         <hr style="display: inline-block;vertical-align: middle;width: 100%;">
         <span class="headerTitle">请求结果</span>
       </div>
-      <pre class="resultBox">{{format(testResult)}}</pre>
+      <json-view :json="JSON.parse(format(testResult))||{}" ></json-view>
     </div>
   </div>
 </template>
@@ -41,8 +41,10 @@
 <script>
 import {formatObject, deepCopy} from '../util'
 import {test} from '../api'
+import JsonView from './JsonView'
 
 export default {
+  components: {JsonView},
   props: {
     operation: Object
   },
@@ -113,16 +115,18 @@ export default {
 }
 </script>
 <style scoped>
-  .resultBox{
+  .resultBox {
     background: white;
     padding: 5px 15px;
     box-sizing: border-box;
   }
-  .testBox{
+
+  .testBox {
     width: 100%;
     box-sizing: border-box;
     padding: 0 10px;
   }
+
   .headerTitle {
     position: absolute;
     left: 1em;
