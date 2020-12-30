@@ -82,10 +82,20 @@
               <em>({{ scope.row.required? '必填' : '可选' }})</em>
             </template>
           </el-table-column>
+          <el-table-column label="描述" prop="description" width="150">
+
+          </el-table-column>
           <el-table-column label="样例" >
             <template slot-scope="scope">
               <div style="max-height: 150px;overflow: auto;">
                 <pre>{{bodyParam(scope.row.schema.$ref)}}</pre>
+              </div>
+            </template>
+          </el-table-column>
+          <el-table-column label="参数说明" width="400">
+            <template slot-scope="scope">
+              <div style="max-height: 150px;overflow: auto;">
+                <pre>{{formatProperty(scope.row.schema.$ref)}}</pre>
               </div>
             </template>
           </el-table-column>
@@ -115,7 +125,20 @@ export default {
     format (obj) {
       return formatObject(obj)
     },
+    formatProperty (obj) {
+      if (!obj) {
+        return {}
+      }
+      let temp = {}
+      for (let e in obj.properties) {
+        temp[e] = obj.properties[e].description
+      }
+      return this.format(temp)
+    },
     bodyParam (obj) {
+      if (!obj) {
+        return {}
+      }
       if (obj.type === 'object') {
         let temp = {}
         for (let e in obj.properties) {

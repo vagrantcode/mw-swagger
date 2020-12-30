@@ -1,7 +1,7 @@
 <template>
   <div class="testBox">
     <div>
-      <el-form ref="formModel" :label-position="labelPosition" :model="formModel" label-width="160px">
+      <el-form ref="formModel" :label-position="labelPosition" :model="formModel" label-width="160px" >
         <el-form-item
           size="default" v-for="(param, index) in formModel.params"
           :label="param.name"
@@ -20,8 +20,12 @@
           :key="param.name"
           :prop="'bodies.'+index +'.value'"
           v-if="formModel.params.length<=0"
+          :rules="{
+                             validator:checkJson,
+                                trigger: ['blur', 'change']
+                              }"
         >
-          <el-input type="textarea" v-model="param.value" autosize></el-input>
+          <el-input type="textarea" v-model="param.value" autosize ></el-input>
           <!--<div>{{JSON.stringify(param)}}</div>-->
         </el-form-item>
         <el-form-item>
@@ -41,6 +45,22 @@
 import {formatObject, deepCopy} from '../util'
 import {test} from '../api'
 import JsonView from './JsonView'
+function isJSON (str) {
+  if (typeof str === 'string') {
+    try {
+      let obj = JSON.parse(str)
+      if (typeof obj === 'object' && obj) {
+        return true
+      } else {
+        return false
+      }
+    } catch (e) {
+      console.log('error：' + str + '!!!' + e)
+      return false
+    }
+  }
+  console.log('It is not a string!')
+}
 
 export default {
   components: {JsonView},
@@ -59,6 +79,17 @@ export default {
     }
   },
   methods: {
+    checkJson (rule, value, callback) {
+      if (!value) {
+        return callback(new Error('body不能传空'))
+      }
+      if (!isJSON(value)) {
+        callback(new Error('请输入正确的json数据'))
+      } else {
+        callback()
+      }
+    },
+
     onSubmit () {
       console.log(this.formModel)
       this.$refs['formModel'].validate((valid) => {
@@ -101,10 +132,14 @@ export default {
         } else {
           this.formModel.bodies.push(model)
           this.formModel.bodies.forEach(item => {
-            for (let e in item.schema.$ref.properties) {
-              item.schema.$ref.properties[e] = item.schema.$ref.properties[e].example
+            if (item.schema.$ref) {
+              for (let e in item.schema.$ref.properties) {
+                item.schema.$ref.properties[e] = item.schema.$ref.properties[e].example
+              }
+              item.value = JSON.stringify(item.schema.$ref.properties, null, 4) || '{}'
+            } else {
+              item.value = '{}'
             }
-            item.value = JSON.stringify(item.schema.$ref.properties, null, 4)
           })
         }
       })
